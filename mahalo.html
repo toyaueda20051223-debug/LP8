@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MAHALO JEWELRY — ハワイアンジュエリー</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #fdf9f5;
+      --bg-warm:  #f6ede0;
+      --bg-dark:  #1c1208;
+      --text:     #2a1f14;
+      --text-lt:  #fdf9f5;
+      --muted:    #8a7a68;
+      --gold:     #c09040;
+      --gold-l:   #e8d5a8;
+      --gold-ll:  #f8f0e0;
+      --border:   #e0d4c0;
+      --serif: 'Cormorant Garamond', 'Noto Serif JP', serif;
+      --sans:  'Noto Sans JP', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 1.9;
+      -webkit-font-smoothing: antialiased;
+    }
+    img { display: block; max-width: 100%; }
+    a   { text-decoration: none; }
+
+    /* ── HEADER ── */
+    .hd {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+      background: var(--bg-dark);
+      display: grid; grid-template-columns: 1fr auto 1fr;
+      align-items: center; padding: 18px 56px;
+      transition: all .4s ease;
+    }
+    .hd.on {
+      background: rgba(253,249,245,.97);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .hd-nav { display: flex; gap: 28px; list-style: none; }
+    .hd-nav-r { justify-content: flex-end; align-items: center; gap: 24px; }
+    .hd-nav a {
+      font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+      color: rgba(255,255,255,.7); transition: color .3s;
+    }
+    .hd-nav a:hover { color: #fff; }
+    .hd.on .hd-nav a { color: var(--muted); }
+    .hd.on .hd-nav a:hover { color: var(--text); }
+    .hd-logo {
+      text-align: center; line-height: 1;
+    }
+    .hd-logo-main {
+      display: block;
+      font-family: var(--serif); font-size: 22px; font-weight: 400;
+      letter-spacing: .55em; text-transform: uppercase;
+      color: #fff; transition: color .4s;
+    }
+    .hd-logo-sub {
+      display: block;
+      font-size: 9px; letter-spacing: .45em; text-transform: uppercase;
+      color: rgba(255,255,255,.5); margin-top: 3px; transition: color .4s;
+    }
+    .hd.on .hd-logo-main { color: var(--text); }
+    .hd.on .hd-logo-sub { color: var(--muted); }
+    .hd-cart {
+      color: rgba(255,255,255,.7); transition: color .3s;
+    }
+    .hd-cart:hover { color: #fff; }
+    .hd.on .hd-cart { color: var(--muted); }
+    .hd.on .hd-cart:hover { color: var(--text); }
+
+    /* ── HERO (split layout) ── */
+    .hero {
+      display: grid; grid-template-columns: 1fr 1fr;
+      min-height: 100vh;
+    }
+    .hero-left {
+      background: var(--bg-dark);
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 140px 72px 100px;
+      position: relative;
+    }
+    .hero-h1 {
+      font-family: var(--serif);
+      font-size: clamp(36px, 4.5vw, 56px);
+      font-weight: 300; line-height: 1.3;
+      letter-spacing: .06em; color: #fff;
+      margin-bottom: 28px;
+    }
+    .hero-h1 em { font-style: italic; color: var(--gold-l); }
+    .hero-sub {
+      font-size: 13px; color: rgba(255,255,255,.6);
+      letter-spacing: .05em; line-height: 2;
+      margin-bottom: 48px; max-width: 340px;
+    }
+    .btn-gold {
+      display: inline-flex; align-items: center; gap: 12px;
+      padding: 15px 36px;
+      background: var(--gold); color: #fff;
+      font-size: 13px; letter-spacing: .18em;
+      transition: all .3s; width: fit-content;
+    }
+    .btn-gold:hover { background: #a87830; transform: translateX(4px); }
+    .hero-note {
+      display: flex; align-items: center; gap: 8px;
+      margin-top: 20px; font-size: 12px; color: rgba(255,255,255,.4);
+      letter-spacing: .04em;
+    }
+    .hero-right {
+      position: relative; overflow: hidden;
+      background: #2a1f10;
+    }
+    .hero-right img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      filter: sepia(.2) saturate(1.4) brightness(.88);
+      transition: transform 14s ease;
+    }
+    .hero-right:hover img { transform: scale(1.04); }
+
+    /* ── TRUST BAR ── */
+    .trust {
+      background: var(--bg-dark);
+      border-top: 1px solid rgba(255,255,255,.07);
+      display: flex; align-items: stretch; justify-content: center;
+    }
+    .trust-item {
+      flex: 1; max-width: 320px;
+      display: flex; align-items: center; gap: 20px;
+      padding: 28px 40px;
+      border-right: 1px solid rgba(255,255,255,.08);
+    }
+    .trust-item:last-child { border-right: none; }
+    .trust-icon { color: var(--gold-l); flex-shrink: 0; }
+    .trust-ttl {
+      font-family: var(--serif); font-size: 15px; font-weight: 400;
+      letter-spacing: .06em; color: var(--text-lt); margin-bottom: 3px;
+    }
+    .trust-desc { font-size: 11px; color: rgba(253,249,245,.4); line-height: 1.6; }
+
+    /* ── SECTION BASE ── */
+    .sec { padding: 104px 88px; }
+    .sec-lbl {
+      display: flex; align-items: center; justify-content: center; gap: 16px;
+      font-family: var(--serif); font-size: 10px;
+      letter-spacing: .45em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px;
+    }
+    .sec-lbl::before, .sec-lbl::after {
+      content: ''; display: block; width: 32px; height: 1px; background: var(--gold);
+    }
+    .sec-h2 {
+      font-family: var(--serif);
+      font-size: clamp(26px, 3vw, 38px); font-weight: 400;
+      text-align: center; letter-spacing: .06em; line-height: 1.55;
+      margin-bottom: 16px;
+    }
+    .sec-lead {
+      font-size: 13px; color: var(--muted);
+      text-align: center; line-height: 2.1; max-width: 440px;
+      margin: 0 auto 64px;
+    }
+
+    /* ── STORY ── */
+    .story { background: var(--bg-warm); position: relative; overflow: hidden; }
+    .story-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+    }
+    .story-img-wrap { position: relative; }
+    .story-img-wrap img {
+      width: 100%; aspect-ratio: 3/4; object-fit: cover;
+      filter: sepia(.15) saturate(1.2);
+    }
+    .story-badge {
+      position: absolute; bottom: -20px; right: 20px;
+      width: 108px; height: 108px; border-radius: 50%;
+      background: var(--gold);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 2px;
+    }
+    .story-badge-yr {
+      font-family: var(--serif); font-size: 30px; font-weight: 400;
+      color: #fff; line-height: 1;
+    }
+    .story-badge-lbl {
+      font-size: 9px; letter-spacing: .15em; color: rgba(255,255,255,.75);
+    }
+    .story-badge-deco {
+      font-size: 14px; color: rgba(255,255,255,.5); margin-top: 2px;
+    }
+    .story-body { padding: 20px 0; position: relative; }
+    .story-eyebrow {
+      font-family: var(--serif); font-size: 10px; letter-spacing: .45em;
+      text-transform: uppercase; color: var(--gold);
+      display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
+    }
+    .story-eyebrow::before {
+      content: ''; display: block; width: 24px; height: 1px; background: var(--gold);
+    }
+    .story-h3 {
+      font-family: var(--serif);
+      font-size: clamp(22px, 2.8vw, 34px); font-weight: 400;
+      letter-spacing: .06em; line-height: 1.55; margin-bottom: 28px;
+    }
+    .story-p { font-size: 13px; color: var(--muted); line-height: 2.2; }
+    .story-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 28px; font-size: 12px; letter-spacing: .1em;
+      color: var(--gold); border-bottom: 1px solid var(--gold);
+      padding-bottom: 2px; transition: gap .3s;
+    }
+    .story-link:hover { gap: 14px; }
+    .story-deco {
+      position: absolute; right: -32px; top: 0; bottom: 0;
+      display: flex; align-items: center; pointer-events: none; opacity: .1;
+    }
+
+    /* ── COLLECTION ── */
+    .col-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
+    }
+    .col-card { cursor: pointer; }
+    .col-img {
+      position: relative; overflow: hidden;
+      aspect-ratio: 1/1; background: var(--bg-warm);
+      margin-bottom: 20px;
+    }
+    .col-img img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: sepia(.1) saturate(1.15);
+      transition: transform .6s ease;
+    }
+    .col-card:hover .col-img img { transform: scale(1.06); }
+    .col-badge {
+      position: absolute; top: 14px; left: 14px;
+      background: var(--gold); color: #fff;
+      font-size: 10px; letter-spacing: .12em; padding: 4px 10px;
+      text-transform: uppercase;
+    }
+    .col-name-en {
+      font-family: var(--serif); font-size: 18px; font-weight: 400;
+      letter-spacing: .06em; margin-bottom: 4px;
+    }
+    .col-name-jp {
+      font-size: 12px; color: var(--muted); letter-spacing: .04em; margin-bottom: 12px;
+    }
+    .col-price {
+      font-family: var(--serif); font-size: 16px; color: var(--text);
+      letter-spacing: .04em;
+    }
+    .col-price span { font-size: 12px; color: var(--muted); font-family: var(--sans); }
+
+    /* ── GIFT SCENE ── */
+    .gift-scene { background: var(--bg-warm); }
+    .gs-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      grid-template-rows: 280px 280px; gap: 8px;
+    }
+    .gs-card { position: relative; overflow: hidden; cursor: pointer; }
+    .gs-card img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: sepia(.25) saturate(.9) brightness(.72);
+      transition: transform .5s ease, filter .4s;
+    }
+    .gs-card:hover img { transform: scale(1.05); filter: sepia(.2) saturate(.95) brightness(.8); }
+    .gs-ov {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 35%, rgba(20,10,4,.7) 100%);
+    }
+    .gs-body {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 24px 28px;
+    }
+    .gs-jp {
+      font-family: var(--serif); font-size: 20px; font-weight: 400;
+      color: #fff; letter-spacing: .06em; margin-bottom: 2px;
+    }
+    .gs-en {
+      font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+      color: rgba(255,255,255,.55);
+    }
+    .gs-line {
+      display: block; width: 24px; height: 1px; background: var(--gold-l);
+      margin-top: 10px;
+    }
+
+    /* ── REVIEWS ── */
+    .reviews { background: var(--bg-dark); }
+    .rv-inner {
+      display: grid; grid-template-columns: 280px 1fr; gap: 64px; align-items: start;
+    }
+    .rv-stats {
+      display: flex; flex-direction: column; gap: 20px;
+    }
+    .rv-stars-lg { display: flex; gap: 3px; margin-bottom: 4px; }
+    .rv-stars-lg span { color: var(--gold); font-size: 18px; }
+    .rv-big {
+      font-family: var(--serif); font-size: 56px; font-weight: 300;
+      color: var(--gold-l); line-height: 1; letter-spacing: .02em;
+    }
+    .rv-big-unit { font-size: 18px; }
+    .rv-count { font-size: 14px; color: rgba(253,249,245,.45); letter-spacing: .04em; }
+    .rv-divider-h { width: 40px; height: 1px; background: rgba(255,255,255,.1); }
+    .rv-pct {
+      font-family: var(--serif); font-size: 52px; font-weight: 300;
+      color: var(--gold-l); line-height: 1;
+    }
+    .rv-pct-unit { font-size: 22px; }
+    .rv-pct-lbl { font-size: 13px; color: rgba(253,249,245,.45); margin-top: 4px; }
+    .rv-laurel {
+      margin-top: 8px; opacity: .35;
+      font-size: 28px; color: var(--gold-l); letter-spacing: .1em;
+    }
+    .rv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .rv-card {
+      padding: 28px; background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.07);
+      transition: border-color .3s;
+    }
+    .rv-card:hover { border-color: rgba(192,144,64,.35); }
+    .rv-mark {
+      font-family: var(--serif); font-size: 40px; line-height: 1;
+      color: var(--gold); opacity: .4; margin-bottom: 8px;
+    }
+    .rv-stars { display: flex; gap: 2px; margin-bottom: 12px; }
+    .rv-stars span { color: var(--gold); font-size: 12px; }
+    .rv-text {
+      font-size: 12px; color: rgba(253,249,245,.6); line-height: 2; margin-bottom: 20px;
+    }
+    .rv-author { font-size: 11px; color: rgba(253,249,245,.35); }
+
+    /* ── GIFT BANNER ── */
+    .gift-banner {
+      padding: 60px 88px; background: var(--bg-warm);
+      display: flex; align-items: center; gap: 56px;
+    }
+    .gb-img {
+      width: 220px; flex-shrink: 0;
+    }
+    .gb-img img {
+      width: 100%; aspect-ratio: 4/3; object-fit: cover;
+      filter: sepia(.1) saturate(1.1);
+    }
+    .gb-text { flex: 1; }
+    .gb-h3 {
+      font-family: var(--serif); font-size: 22px; font-weight: 400;
+      letter-spacing: .06em; margin-bottom: 10px;
+    }
+    .gb-p { font-size: 13px; color: var(--muted); line-height: 2; }
+    .btn-gold-outline {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 32px;
+      border: 1px solid var(--gold); color: var(--gold);
+      font-size: 12px; letter-spacing: .14em;
+      white-space: nowrap; flex-shrink: 0;
+      transition: all .3s;
+    }
+    .btn-gold-outline:hover { background: var(--gold); color: #fff; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--bg-dark); padding: 56px 88px 32px;
+    }
+    .ft-top {
+      display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr 1fr;
+      gap: 48px; padding-bottom: 48px;
+      border-bottom: 1px solid rgba(255,255,255,.08); margin-bottom: 28px;
+    }
+    .ft-brand-logo {
+      font-family: var(--serif); font-size: 20px; letter-spacing: .4em;
+      text-transform: uppercase; color: var(--text-lt); margin-bottom: 4px;
+    }
+    .ft-brand-sub {
+      font-size: 9px; letter-spacing: .35em; text-transform: uppercase;
+      color: rgba(253,249,245,.35); margin-bottom: 20px;
+    }
+    .ft-sns { display: flex; gap: 16px; margin-top: 20px; }
+    .ft-sns a {
+      width: 32px; height: 32px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.2);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,.5); font-size: 13px; transition: all .3s;
+    }
+    .ft-sns a:hover { border-color: var(--gold-l); color: var(--gold-l); }
+    .ft-col-ttl {
+      font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--gold-l); margin-bottom: 20px;
+    }
+    .ft-col-list { list-style: none; }
+    .ft-col-list li { margin-bottom: 10px; }
+    .ft-col-list a {
+      font-size: 12px; color: rgba(253,249,245,.4); transition: color .3s;
+    }
+    .ft-col-list a:hover { color: var(--text-lt); }
+    .ft-bottom {
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px; color: rgba(253,249,245,.2); letter-spacing: .05em;
+    }
+
+    /* ── FADE UP ── */
+    .fu {
+      opacity: 0; transform: translateY(20px);
+      transition: opacity .75s ease, transform .75s ease;
+    }
+    .fu.vis { opacity: 1; transform: none; }
+    .fu:nth-child(2) { transition-delay: .1s; }
+    .fu:nth-child(3) { transition-delay: .2s; }
+    .fu:nth-child(4) { transition-delay: .3s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .sec { padding: 80px 48px; }
+      .ft-top { grid-template-columns: 1fr 1fr 1fr; gap: 36px; }
+    }
+    @media (max-width: 900px) {
+      .hd { padding: 18px 24px; }
+      .hd-nav-l-wrap, .hd-cart { display: none; }
+      .hd { grid-template-columns: 1fr auto 1fr; }
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 100px 32px 60px; }
+      .hero-right { height: 60vw; min-height: 280px; }
+      .trust { flex-direction: column; }
+      .trust-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,.08); max-width: 100%; width: 100%; }
+      .trust-item:last-child { border-bottom: none; }
+      .story-grid { grid-template-columns: 1fr; gap: 48px; }
+      .story-badge { right: 16px; }
+      .col-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+      .gs-grid { grid-template-columns: 1fr; grid-template-rows: repeat(4, 200px); }
+      .rv-inner { grid-template-columns: 1fr; gap: 40px; }
+      .rv-stats { flex-direction: row; flex-wrap: wrap; gap: 32px; align-items: flex-end; }
+      .rv-divider-h { display: none; }
+      .rv-grid { grid-template-columns: 1fr; gap: 16px; }
+      .gift-banner { flex-direction: column; gap: 32px; padding: 48px 32px; }
+      .gb-img { width: 100%; }
+      footer { padding: 48px 28px 28px; }
+      .ft-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .sec { padding: 72px 28px; }
+    }
+    @media (max-width: 600px) {
+      .hero-h1 { font-size: 32px; }
+      .col-grid { grid-template-columns: 1fr; }
+      .ft-top { grid-template-columns: 1fr; }
+      .rv-stats { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="hd" id="hd">
+    <nav><ul class="hd-nav hd-nav-l-wrap">
+      <li><a href="#collection">Collection</a></li>
+      <li><a href="#story">About</a></li>
+      <li><a href="#products">Shop</a></li>
+    </ul></nav>
+    <a href="#" class="hd-logo">
+      <span class="hd-logo-main">Mahalo</span>
+      <span class="hd-logo-sub">Jewelry</span>
+    </a>
+    <nav><ul class="hd-nav hd-nav-r">
+      <li><a href="#gift-scene">Gift</a></li>
+      <li><a href="#reviews">News</a></li>
+      <li><a href="#gift-banner">Contact</a></li>
+      <li>
+        <a href="#" class="hd-cart">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+        </a>
+      </li>
+    </ul></nav>
+  </header>
+
+  <!-- HERO (split) -->
+  <section class="hero">
+    <div class="hero-left">
+      <h1 class="hero-h1">
+        あなたの<em>想い</em>を、<br>
+        永遠に纏う。
+      </h1>
+      <p class="hero-sub">
+        ハワイの自然が育んだ美しさと、<br>
+        職人の想いが込められた特別なジュエリー。
+      </p>
+      <a href="#collection" class="btn-gold">
+        コレクションを見る &nbsp;→
+      </a>
+      <p class="hero-note">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="8" width="18" height="13" rx="1"/><path d="M8 8V5a4 4 0 018 0v3"/>
+        </svg>
+        全国送料無料・ギフト包装無料
+      </p>
+    </div>
+    <div class="hero-right">
+      <img
+        src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=1200&q=90&auto=format&fit=crop&crop=center"
+        alt="MAHALO Hawaiian Jewelry"
+        loading="eager"
+      >
+    </div>
+  </section>
+
+  <!-- TRUST BAR -->
+  <div class="trust">
+    <div class="trust-item">
+      <svg class="trust-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.2">
+        <path d="M16 4c0 0-8 4-8 12s8 12 8 12 8-4 8-12S16 4 16 4z"/>
+        <path d="M12 16l3 3 6-6"/>
+      </svg>
+      <div>
+        <p class="trust-ttl">職人ハンドメイド</p>
+        <p class="trust-desc">一つひとつ心を込めて</p>
+      </div>
+    </div>
+    <div class="trust-item">
+      <svg class="trust-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.2">
+        <circle cx="16" cy="16" r="12"/>
+        <path d="M11 16l4 4 7-7"/>
+      </svg>
+      <div>
+        <p class="trust-ttl">品質永久保証</p>
+        <p class="trust-desc">ずっと安心のアフターケア</p>
+      </div>
+    </div>
+    <div class="trust-item">
+      <svg class="trust-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.2">
+        <rect x="4" y="10" width="24" height="18" rx="1"/>
+        <path d="M4 10l3-6h18l3 6"/>
+        <path d="M16 10v18"/>
+      </svg>
+      <div>
+        <p class="trust-ttl">ギフト無料包装</p>
+        <p class="trust-desc">そのまま贈れる特別なラッピング</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- STORY -->
+  <section class="sec story" id="story">
+    <div class="story-grid">
+      <div class="story-img-wrap fu">
+        <img
+          src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=700&q=80&auto=format&fit=crop&crop=center"
+          alt="Hawaii"
+        >
+        <div class="story-badge">
+          <span class="story-badge-yr">1998</span>
+          <span class="story-badge-lbl">Founded</span>
+          <span class="story-badge-deco">✦</span>
+        </div>
+      </div>
+      <div class="story-body fu">
+        <span class="story-eyebrow">Our Story</span>
+        <h2 class="story-h3">
+          ハワイの祈りを、<br>あなたの指先に。
+        </h2>
+        <p class="story-p">
+          マハロジュエリーは、ハワイの大自然とスピリットに
+          インスピレーションを受けて誕生しました。
+          大切な人への想いで、自分自身を愛する気持ちを
+          そっと輝きに変えて、日常に寄り添うジュエリーを
+          お届けします。
+        </p>
+        <a href="#" class="story-link">
+          ブランドについて見る &nbsp;→
+        </a>
+        <!-- 装飾：プルメリアSVG -->
+        <div class="story-deco">
+          <svg width="120" height="300" viewBox="0 0 120 300" fill="none" stroke="#c09040" stroke-width="1">
+            <ellipse cx="60" cy="50" rx="20" ry="35" transform="rotate(-20 60 50)"/>
+            <ellipse cx="60" cy="50" rx="20" ry="35" transform="rotate(20 60 50)"/>
+            <ellipse cx="60" cy="50" rx="20" ry="35" transform="rotate(60 60 50)"/>
+            <ellipse cx="60" cy="50" rx="20" ry="35" transform="rotate(-60 60 50)"/>
+            <ellipse cx="60" cy="50" rx="20" ry="35"/>
+            <circle cx="60" cy="50" r="8"/>
+            <line x1="60" y1="85" x2="60" y2="220"/>
+            <ellipse cx="60" cy="180" rx="16" ry="28" transform="rotate(-15 60 180)"/>
+            <ellipse cx="60" cy="180" rx="16" ry="28" transform="rotate(15 60 180)"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLLECTION -->
+  <section class="sec" id="collection">
+    <p class="sec-lbl fu">Collection</p>
+    <h2 class="sec-h2 fu">人気コレクション</h2>
+    <p class="sec-lead fu">ハワイアンジュエリーの伝統を受け継ぎながら、<br>現代の女性に寄り添うデザインで。</p>
+    <div class="col-grid">
+      <div class="col-card fu">
+        <div class="col-img">
+          <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=700&q=80&auto=format&fit=crop" alt="Plumeria Ring">
+          <span class="col-badge">Best Seller</span>
+        </div>
+        <p class="col-name-en">Plumeria Ring</p>
+        <p class="col-name-jp">プルメリアリング</p>
+        <p class="col-price">¥38,500 <span>（税込）</span></p>
+      </div>
+      <div class="col-card fu">
+        <div class="col-img">
+          <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=700&q=80&auto=format&fit=crop" alt="Wave Pendant">
+        </div>
+        <p class="col-name-en">Wave Pendant</p>
+        <p class="col-name-jp">ウェーブペンダント</p>
+        <p class="col-price">¥29,700 <span>（税込）</span></p>
+      </div>
+      <div class="col-card fu">
+        <div class="col-img">
+          <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=700&q=80&auto=format&fit=crop" alt="Hawaiian Hoop Pierce">
+        </div>
+        <p class="col-name-en">Hawaiian Hoop Pierce</p>
+        <p class="col-name-jp">ハワイアンフープピアス</p>
+        <p class="col-price">¥26,400 <span>（税込）</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- GIFT SCENE -->
+  <section class="sec gift-scene" id="gift-scene">
+    <p class="sec-lbl fu">Gift Scene</p>
+    <h2 class="sec-h2 fu">贈りたい、あの瞬間に。</h2>
+    <p class="sec-lead fu">人生の大切なシーンに、<br>MAHALOのジュエリーを添えて。</p>
+    <div class="gs-grid">
+      <div class="gs-card fu">
+        <img src="https://images.unsplash.com/photo-1529636798458-92182e662485?w=900&q=80&auto=format&fit=crop" alt="Anniversary">
+        <div class="gs-ov"></div>
+        <div class="gs-body">
+          <p class="gs-jp">記念日</p>
+          <p class="gs-en">Anniversary</p>
+          <span class="gs-line"></span>
+        </div>
+      </div>
+      <div class="gs-card fu">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=80&auto=format&fit=crop" alt="Birthday">
+        <div class="gs-ov"></div>
+        <div class="gs-body">
+          <p class="gs-jp">誕生日</p>
+          <p class="gs-en">Birthday</p>
+          <span class="gs-line"></span>
+        </div>
+      </div>
+      <div class="gs-card fu">
+        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=900&q=80&auto=format&fit=crop" alt="Proposal">
+        <div class="gs-ov"></div>
+        <div class="gs-body">
+          <p class="gs-jp">プロポーズ</p>
+          <p class="gs-en">Proposal</p>
+          <span class="gs-line"></span>
+        </div>
+      </div>
+      <div class="gs-card fu">
+        <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=900&q=80&auto=format&fit=crop" alt="For Myself">
+        <div class="gs-ov"></div>
+        <div class="gs-body">
+          <p class="gs-jp">自分へのご褒美</p>
+          <p class="gs-en">For Myself</p>
+          <span class="gs-line"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="sec reviews" id="reviews">
+    <p class="sec-lbl fu" style="color:var(--gold-l);margin-bottom:48px;">
+      <span style="display:block;width:32px;height:1px;background:var(--gold-l)"></span>
+      Customer Reviews
+      <span style="display:block;width:32px;height:1px;background:var(--gold-l)"></span>
+    </p>
+    <div class="rv-inner">
+      <div class="rv-stats fu">
+        <div>
+          <div class="rv-stars-lg">
+            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+          </div>
+          <div class="rv-big">4.87<span class="rv-big-unit"> / 5,248件</span></div>
+        </div>
+        <div class="rv-divider-h"></div>
+        <div>
+          <div class="rv-pct">98<span class="rv-pct-unit">%</span></div>
+          <div class="rv-pct-lbl">リピート率</div>
+        </div>
+        <div class="rv-laurel">❧ ❧ ❧</div>
+      </div>
+      <div class="rv-grid">
+        <div class="rv-card fu">
+          <div class="rv-mark">"</div>
+          <div class="rv-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+          <p class="rv-text">デザインが本当に美しくて、見るたびに幸せな気持ちになります。大切に使います。</p>
+          <p class="rv-author">30代 女性</p>
+        </div>
+        <div class="rv-card fu">
+          <div class="rv-mark">"</div>
+          <div class="rv-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+          <p class="rv-text">記念日のプレゼントで購入しました。とても喜んでもらえて嬉しいです。</p>
+          <p class="rv-author">20代 男性</p>
+        </div>
+        <div class="rv-card fu">
+          <div class="rv-mark">"</div>
+          <div class="rv-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+          <p class="rv-text">ハワイを感じるデザインで着け心地も良く、毎日身につけています。</p>
+          <p class="rv-author">40代 女性</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GIFT SERVICE BANNER -->
+  <div class="gift-banner" id="gift-banner">
+    <div class="gb-img">
+      <img
+        src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=500&q=80&auto=format&fit=crop"
+        alt="Gift Box"
+      >
+    </div>
+    <div class="gb-text">
+      <h3 class="gb-h3">大切な想いを、特別なかたちで。</h3>
+      <p class="gb-p">マハロジュエリーのギフト包装は無料です。<br>心を込めてお包みいたします。</p>
+    </div>
+    <a href="#" class="btn-gold-outline">
+      ギフトについて詳しく見る &nbsp;→
+    </a>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="ft-top">
+      <div>
+        <p class="ft-brand-logo">Mahalo</p>
+        <p class="ft-brand-sub">Jewelry</p>
+        <div class="ft-sns">
+          <a href="#" title="Instagram">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="2" width="20" height="20" rx="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+          </a>
+          <a href="#" title="LINE">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 11.5C21 7.36 16.97 4 12 4 7.03 4 3 7.36 3 11.5c0 3.69 3.24 6.79 7.61 7.38.3.06.7.2.8.44.1.22.06.56.03.78l-.12.74c-.04.22-.17.87.76.47.93-.4 4.97-2.93 6.79-5.01A6.66 6.66 0 0021 11.5z"/>
+            </svg>
+          </a>
+          <a href="#" title="Facebook">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <div>
+        <p class="ft-col-ttl">コレクション</p>
+        <ul class="ft-col-list">
+          <li><a href="#">リング</a></li>
+          <li><a href="#">ネックレス</a></li>
+          <li><a href="#">ピアス</a></li>
+          <li><a href="#">バングル</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="ft-col-ttl">ブランドについて</p>
+        <ul class="ft-col-list">
+          <li><a href="#">私たちの想い</a></li>
+          <li><a href="#">職人について</a></li>
+          <li><a href="#">素材について</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="ft-col-ttl">サポート</p>
+        <ul class="ft-col-list">
+          <li><a href="#">よくあるご質問</a></li>
+          <li><a href="#">サイズガイド</a></li>
+          <li><a href="#">店舗情報</a></li>
+          <li><a href="#">お問い合わせ</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="ft-col-ttl">ニュース</p>
+        <ul class="ft-col-list">
+          <li><a href="#">お知らせ</a></li>
+          <li><a href="#">新着情報</a></li>
+          <li><a href="#">特定商取引に基づく表示</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <p>© MAHALO JEWELRY All Rights Reserved. &nbsp;—&nbsp; Portfolio LP / Hawaiian Jewelry Concept</p>
+    </div>
+  </footer>
+
+  <script>
+    // ヘッダースクロール
+    const hd = document.getElementById('hd');
+    window.addEventListener('scroll', () => {
+      hd.classList.toggle('on', window.scrollY > 60);
+    }, { passive: true });
+
+    // フェードアップ
+    const io = new IntersectionObserver(
+      entries => entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('vis'); io.unobserve(e.target); }
+      }),
+      { threshold: .1, rootMargin: '0px 0px -24px 0px' }
+    );
+    document.querySelectorAll('.fu').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
