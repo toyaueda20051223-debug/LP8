@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MAHALO JEWELRY — ハワイアンジュエリー</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Noto+Sans+JP:wght@300;400;500&family=Noto+Serif+JP:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      /* ── Hawaii のストーリーから導いたパレット ──
+         明るい面  = 砂浜・貝殻のウォームサンド
+         暗い面    = ハワイの深海・ミッドナイトオーシャン
+         アクセント = サンセットゴールド                */
+      --bg:       #f5e6cc;          /* 砂浜・シェル */
+      --bg-warm:  #e6ccaa;          /* 深みのあるサンドベージュ */
+      --bg-dark:  #0c1820;          /* ディープオーシャン */
+      --bg-dark2: #142030;          /* ミッドオーシャン */
+      --text:     #261606;          /* 深みのある温かいダーク */
+      --text-lt:  #f5e6cc;
+      --muted:    #8c7860;
+      --gold:     #c49050;          /* サンセットゴールド */
+      --gold-d:   #a87838;
+      --gold-l:   #e0b880;          /* 夕焼けのシャンパン */
+      --gold-ll:  #f4e4c0;
+      --border:   #d4b888;
+      --serif: 'Cormorant Garamond', 'Noto Serif JP', serif;
+      --sans:  'Noto Sans JP', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    /* カスタムカーソル */
+    * { cursor: none !important; }
+    .cursor {
+      position: fixed; z-index: 9999; pointer-events: none;
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--gold);
+      transform: translate(-50%, -50%);
+      transition: transform .15s ease, width .2s ease, height .2s ease, opacity .2s;
+      mix-blend-mode: multiply;
+    }
+    .cursor.big {
+      width: 36px; height: 36px;
+      background: transparent;
+      border: 1px solid var(--gold);
+      mix-blend-mode: normal;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 1.9;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a   { text-decoration: none; }
+
+    /* グレインテクスチャ（暗いセクション用） */
+    .grain {
+      position: relative;
+    }
+    .grain::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='256' height='256'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.72' numOctaves='4' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='256' height='256' filter='url(%23g)' opacity='.035'/></svg>");
+      pointer-events: none; z-index: 1;
+    }
+    .grain > * { position: relative; z-index: 2; }
+
+    /* ── サイトトップ固定コンテナ（アナウンス＋ヘッダーをまとめて固定） ── */
+    .site-top {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+    }
+
+    /* ── アナウンスバー ── */
+    .announce {
+      background: var(--gold); padding: 9px 24px;
+      text-align: center; font-size: 11px;
+      letter-spacing: .14em; color: #fff;
+      transition: max-height .4s ease, padding .4s ease, opacity .3s;
+      overflow: hidden; max-height: 40px;
+    }
+    .announce.hidden { max-height: 0; padding-top: 0; padding-bottom: 0; opacity: 0; }
+
+    /* ── HEADER ── */
+    .hd {
+      position: relative;                /* site-top が fixed なので relative でOK */
+      display: grid; grid-template-columns: 1fr auto 1fr;
+      align-items: center; padding: 20px 56px;
+      transition: all .45s ease;
+    }
+    .hd.on {
+      background: rgba(245,230,204,.97);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 1px 28px rgba(44,29,18,.05);
+    }
+    .hd-nav { display: flex; gap: 28px; list-style: none; }
+    .hd-nav-r { justify-content: flex-end; align-items: center; gap: 24px; }
+    .hd-nav a {
+      font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+      color: rgba(255,255,255,.65); transition: color .3s;
+    }
+    .hd-nav a:hover { color: #fff; }
+    .hd.on .hd-nav a { color: var(--muted); }
+    .hd.on .hd-nav a:hover { color: var(--text); }
+    .hd-logo { text-align: center; line-height: 1; }
+    .hd-logo-main {
+      display: block; font-family: var(--serif); font-size: 21px; font-weight: 400;
+      letter-spacing: .6em; text-transform: uppercase;
+      color: #fff; transition: color .4s;
+    }
+    .hd-logo-sub {
+      display: block; font-size: 8px; letter-spacing: .5em; text-transform: uppercase;
+      color: rgba(255,255,255,.4); margin-top: 3px; transition: color .4s;
+    }
+    .hd.on .hd-logo-main { color: var(--text); }
+    .hd.on .hd-logo-sub  { color: var(--muted); }
+    .hd-cart { color: rgba(255,255,255,.65); transition: color .3s; }
+    .hd-cart:hover { color: #fff; }
+    .hd.on .hd-cart { color: var(--muted); }
+    .hd.on .hd-cart:hover { color: var(--text); }
+
+    /* ── HERO ── */
+    .hero {
+      display: grid; grid-template-columns: 1fr 1fr;
+      min-height: 100vh; padding-top: 96px; /* アナウンス(34)+ヘッダー(62)分 */
+      position: relative;
+    }
+    .hero-left {
+      background: var(--bg-dark);
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 72px 80px 80px 80px; /* hero の padding-top:96px と合わせて調整 */
+      position: relative; overflow: hidden;
+    }
+    /* 巨大な背景文字 "想" */
+    .hero-bg-kanji {
+      position: absolute;
+      right: -80px; top: 50%; transform: translateY(-52%);
+      font-family: var(--serif);
+      font-size: 520px; font-weight: 400; line-height: 1;
+      color: rgba(184,137,92,.055);
+      letter-spacing: 0; pointer-events: none;
+      white-space: nowrap; user-select: none;
+    }
+    /* 左端の縦書きラベル */
+    .hero-vert-label {
+      position: absolute; left: 24px; top: 50%; transform: translateY(-50%) rotate(-90deg);
+      transform-origin: center center;
+      font-size: 9px; letter-spacing: .35em; text-transform: uppercase;
+      color: rgba(255,255,255,.2); white-space: nowrap;
+    }
+    /* 社会的証明 */
+    .hero-proof {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: rgba(184,137,92,.12); border: 1px solid rgba(184,137,92,.25);
+      padding: 7px 16px; margin-bottom: 36px; width: fit-content;
+    }
+    .hero-proof-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold-l); flex-shrink: 0; }
+    .hero-proof-txt { font-size: 10px; letter-spacing: .12em; color: rgba(245,230,204,.75); }
+    .hero-h1 {
+      font-family: var(--serif);
+      font-size: clamp(40px, 5vw, 64px);
+      font-weight: 300; line-height: 1.25;
+      letter-spacing: .04em; color: #fff;
+      margin-bottom: 32px;
+    }
+    .hero-h1 em { font-style: italic; color: #fff; }
+    .hero-sub {
+      font-size: 12.5px; color: rgba(253,247,240,.5);
+      letter-spacing: .06em; line-height: 2.1;
+      margin-bottom: 52px; max-width: 320px;
+    }
+    .hero-cta-group { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 14px;
+      padding: 17px 44px;
+      background: var(--gold); color: #fff;
+      font-size: 12px; letter-spacing: .2em;
+      transition: all .3s; width: fit-content;
+    }
+    .btn-primary:hover { background: var(--gold-d); transform: translateX(5px); }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 30px;
+      border: 1px solid rgba(255,255,255,.18); color: rgba(255,255,255,.6);
+      font-size: 11px; letter-spacing: .15em;
+      transition: all .3s;
+    }
+    .btn-ghost:hover { border-color: rgba(255,255,255,.45); color: #fff; }
+    .hero-note {
+      display: flex; align-items: center; gap: 8px;
+      margin-top: 24px; font-size: 11px; color: rgba(253,247,240,.3);
+      letter-spacing: .05em;
+    }
+    .hero-right {
+      position: relative; overflow: hidden;
+      /* 斜めのクリップで左側と差別化 */
+      clip-path: polygon(4% 0, 100% 0, 100% 100%, 0 100%);
+      background: #241a10;
+    }
+    .hero-right img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      filter: sepia(.18) saturate(1.25) brightness(.82);
+      transition: transform 16s ease;
+    }
+    .hero-right:hover img { transform: scale(1.05); }
+    /* スクロールインジケーター */
+    .hero-scroll {
+      position: absolute; bottom: 40px; right: 32px;
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      writing-mode: vertical-rl;
+      font-size: 9px; letter-spacing: .28em; color: rgba(255,255,255,.35);
+    }
+    .hero-scroll-line {
+      width: 1px; height: 52px;
+      background: linear-gradient(to bottom, rgba(255,255,255,.45), transparent);
+      animation: scrollPulse 2.2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: .4; transform: scaleY(1); }
+      50%       { opacity: 1;  transform: scaleY(1.1); }
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap {
+      background: var(--bg-dark2);
+      padding: 18px 0; overflow: hidden;
+      border-top: 1px solid rgba(255,255,255,.06);
+    }
+    .marquee-track {
+      display: flex; align-items: center;
+      animation: marquee 28s linear infinite;
+      white-space: nowrap; width: max-content;
+    }
+    .marquee-track:hover { animation-play-state: paused; }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+    .marquee-item {
+      display: inline-flex; align-items: center; gap: 32px;
+      padding: 0 32px;
+      font-family: var(--serif); font-size: 13px; font-weight: 400;
+      letter-spacing: .32em; text-transform: uppercase;
+      color: rgba(253,247,240,.28);
+    }
+    .marquee-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+    .marquee-item.hi { color: rgba(245,230,204,.55); }
+
+    /* ── TRUST BAR ── */
+    .trust {
+      background: var(--bg-dark); border-top: 1px solid rgba(255,255,255,.05);
+      display: flex; align-items: stretch; justify-content: center;
+      position: relative;
+    }
+    .trust-item {
+      flex: 1; max-width: 340px;
+      display: flex; align-items: center; gap: 20px;
+      padding: 26px 44px;
+      border-right: 1px solid rgba(255,255,255,.07);
+    }
+    .trust-item:last-child { border-right: none; }
+    .trust-icon { color: var(--gold-l); flex-shrink: 0; }
+    .trust-ttl  { font-family: var(--serif); font-size: 15px; font-weight: 400; letter-spacing: .06em; color: var(--text-lt); margin-bottom: 2px; }
+    .trust-desc { font-size: 11px; color: rgba(253,247,240,.35); line-height: 1.6; }
+
+    /* ── SECTION BASE ── */
+    .sec { padding: 108px 88px; }
+    .sec-lbl {
+      display: flex; align-items: center; justify-content: center; gap: 16px;
+      font-family: var(--serif); font-size: 10px;
+      letter-spacing: .45em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 20px;
+    }
+    .sec-lbl::before, .sec-lbl::after {
+      content: ''; display: block; width: 28px; height: 1px; background: var(--border);
+    }
+    .sec-h2 {
+      font-family: var(--serif);
+      font-size: clamp(26px, 3vw, 40px); font-weight: 400;
+      text-align: center; letter-spacing: .06em; line-height: 1.5;
+      margin-bottom: 16px;
+    }
+    .sec-lead {
+      font-size: 13px; color: var(--muted);
+      text-align: center; line-height: 2.1; max-width: 420px;
+      margin: 0 auto 72px;
+    }
+
+    /* ── STORY ── */
+    .story { background: var(--bg-warm); position: relative; overflow: hidden; }
+    .story-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+    .story-img-wrap { position: relative; }
+    .story-img-wrap img {
+      width: 100%; aspect-ratio: 3/4; object-fit: cover;
+      filter: sepia(.1) saturate(1.1) brightness(.96);
+    }
+    .story-badge {
+      position: absolute; bottom: -20px; right: 20px;
+      width: 110px; height: 110px; border-radius: 50%;
+      background: var(--gold);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 2px; box-shadow: 0 10px 40px rgba(184,137,92,.3);
+    }
+    .story-badge-yr   { font-family: var(--serif); font-size: 30px; font-weight: 400; color: #fff; line-height: 1; }
+    .story-badge-lbl  { font-size: 9px; letter-spacing: .15em; color: rgba(255,255,255,.7); }
+    .story-badge-deco { font-size: 14px; color: rgba(255,255,255,.45); margin-top: 2px; }
+    .story-body { padding: 20px 0; position: relative; }
+    /* 巨大な "1998" 背景装飾 */
+    .story-bg-year {
+      position: absolute; right: -48px; top: 50%; transform: translateY(-50%);
+      font-family: var(--serif); font-size: 260px; font-weight: 300; line-height: 1;
+      color: rgba(184,137,92,.07); pointer-events: none; user-select: none;
+      letter-spacing: -.02em;
+    }
+    .story-eyebrow {
+      font-family: var(--serif); font-size: 10px; letter-spacing: .45em;
+      text-transform: uppercase; color: var(--muted);
+      display: flex; align-items: center; gap: 12px; margin-bottom: 20px;
+    }
+    .story-eyebrow::before { content: ''; display: block; width: 24px; height: 1px; background: var(--border); }
+    .story-h3 {
+      font-family: var(--serif);
+      font-size: clamp(24px, 2.8vw, 36px); font-weight: 400;
+      letter-spacing: .05em; line-height: 1.55; margin-bottom: 28px;
+    }
+    .story-p { font-size: 13px; color: var(--muted); line-height: 2.2; }
+    .story-numbers { display: flex; gap: 40px; margin-top: 40px; margin-bottom: 4px; }
+    .story-num-val  { font-family: var(--serif); font-size: 34px; font-weight: 300; color: var(--text); line-height: 1; letter-spacing: .01em; }
+    .story-num-unit { font-size: 13px; }
+    .story-num-lbl  { font-size: 11px; color: var(--muted); margin-top: 4px; letter-spacing: .05em; }
+    .story-link {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 32px; font-size: 12px; letter-spacing: .1em;
+      color: var(--text); border-bottom: 1px solid var(--border);
+      padding-bottom: 2px; transition: gap .3s;
+    }
+    .story-link:hover { gap: 14px; }
+
+    /* ── COLLECTION（非対称エディトリアルグリッド）── */
+    .col-editorial {
+      display: grid;
+      grid-template-columns: 58% 1fr;
+      grid-template-rows: auto auto;
+      gap: 20px;
+    }
+    /* フィーチャーカード（左・大） */
+    .col-feature {
+      grid-row: 1 / 3;
+      position: relative; cursor: pointer;
+    }
+    .col-feature .col-img {
+      aspect-ratio: 2/3; overflow: hidden;
+      background: var(--bg-warm); position: relative;
+    }
+    .col-feature .col-img img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: sepia(.08) saturate(1.1);
+      transition: transform .7s ease;
+    }
+    .col-feature:hover .col-img img { transform: scale(1.05); }
+    /* 番号装飾 */
+    .col-num {
+      position: absolute; top: 20px; left: 20px;
+      font-family: var(--serif); font-size: 72px; font-weight: 300; line-height: 1;
+      color: rgba(255,255,255,.18); pointer-events: none; z-index: 2;
+    }
+    .col-feature .col-num { font-size: 120px; top: 16px; left: 20px; }
+    .col-card-sm { position: relative; cursor: pointer; }
+    .col-card-sm .col-img {
+      aspect-ratio: 4/3; overflow: hidden;
+      background: var(--bg-warm); position: relative;
+    }
+    .col-card-sm .col-img img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: sepia(.08) saturate(1.1);
+      transition: transform .6s ease;
+    }
+    .col-card-sm:hover .col-img img { transform: scale(1.06); }
+    /* バッジ */
+    .col-badge {
+      position: absolute; top: 14px; left: 14px;
+      background: var(--gold); color: #fff;
+      font-size: 9px; letter-spacing: .15em; padding: 4px 10px;
+      text-transform: uppercase; z-index: 3;
+    }
+    .col-badge-stock {
+      position: absolute; top: 14px; right: 14px;
+      background: rgba(30,21,16,.75); color: var(--gold-l);
+      font-size: 9px; letter-spacing: .08em; padding: 4px 10px;
+      backdrop-filter: blur(4px); z-index: 3;
+    }
+    /* ホバーオーバーレイ */
+    .col-overlay {
+      position: absolute; inset: 0;
+      background: rgba(30,21,16,0);
+      display: flex; align-items: flex-end; justify-content: center;
+      padding-bottom: 28px; z-index: 4;
+      transition: background .3s;
+    }
+    .col-feature:hover .col-overlay,
+    .col-card-sm:hover .col-overlay { background: rgba(30,21,16,.42); }
+    .col-overlay-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 26px; background: var(--gold); color: #fff;
+      font-size: 11px; letter-spacing: .14em;
+      opacity: 0; transform: translateY(10px);
+      transition: opacity .3s, transform .3s;
+    }
+    .col-feature:hover .col-overlay-btn,
+    .col-card-sm:hover .col-overlay-btn { opacity: 1; transform: none; }
+    /* テキスト */
+    .col-meta { padding: 18px 0 4px; }
+    .col-name-en { font-family: var(--serif); font-size: 20px; font-weight: 400; letter-spacing: .05em; margin-bottom: 4px; }
+    .col-feature .col-name-en { font-size: 26px; }
+    .col-name-jp  { font-size: 11px; color: var(--muted); letter-spacing: .04em; margin-bottom: 10px; }
+    .col-price    { font-family: var(--serif); font-size: 16px; color: var(--text); letter-spacing: .04em; }
+    .col-price span { font-size: 11px; color: var(--muted); font-family: var(--sans); }
+    .col-footer   { text-align: center; margin-top: 60px; }
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 40px;
+      border: 1px solid var(--gold); color: var(--gold);
+      font-size: 12px; letter-spacing: .14em; transition: all .3s;
+    }
+    .btn-outline:hover { background: var(--gold); color: #fff; }
+
+    /* ── GIFT SCENE ── */
+    .gift-scene { background: var(--bg-warm); }
+    .gs-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 280px 280px; gap: 8px; }
+    .gs-card { position: relative; overflow: hidden; }
+    .gs-card img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: sepia(.22) saturate(.82) brightness(.68);
+      transition: transform .5s ease, filter .4s;
+    }
+    .gs-card:hover img { transform: scale(1.05); filter: sepia(.16) saturate(.88) brightness(.78); }
+    .gs-ov {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 28%, rgba(18,10,4,.74) 100%);
+    }
+    .gs-body { position: absolute; bottom: 0; left: 0; right: 0; padding: 24px 28px; }
+    .gs-jp  { font-family: var(--serif); font-size: 20px; font-weight: 400; color: #fff; letter-spacing: .06em; margin-bottom: 2px; }
+    .gs-en  { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.45); }
+    .gs-line { display: block; width: 22px; height: 1px; background: var(--gold-l); margin-top: 10px; }
+
+    /* ── REVIEWS ── */
+    .reviews { background: var(--bg-dark); }
+    .rv-inner { display: grid; grid-template-columns: 260px 1fr; gap: 64px; align-items: start; }
+    .rv-stats  { display: flex; flex-direction: column; gap: 20px; }
+    .rv-stars-lg { display: flex; gap: 3px; margin-bottom: 4px; }
+    .rv-stars-lg span { color: var(--gold); font-size: 17px; }
+    .rv-big { font-family: var(--serif); font-size: 58px; font-weight: 300; color: var(--text-lt); line-height: 1; letter-spacing: .01em; }
+    .rv-big-unit { font-size: 17px; }
+    .rv-divider-h { width: 36px; height: 1px; background: rgba(255,255,255,.1); }
+    .rv-pct { font-family: var(--serif); font-size: 52px; font-weight: 300; color: var(--text-lt); line-height: 1; }
+    .rv-pct-unit { font-size: 22px; }
+    .rv-pct-lbl { font-size: 12px; color: rgba(253,247,240,.4); margin-top: 4px; }
+    .rv-laurel { margin-top: 8px; font-size: 26px; color: rgba(245,230,204,.18); letter-spacing: .1em; }
+    .rv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .rv-card {
+      padding: 28px; background: rgba(255,255,255,.025);
+      border: 1px solid rgba(255,255,255,.06);
+      transition: border-color .3s, background .3s;
+    }
+    .rv-card:hover { border-color: rgba(184,137,92,.28); background: rgba(184,137,92,.035); }
+    .rv-mark   { font-family: var(--serif); font-size: 40px; line-height: 1; color: rgba(245,230,204,.25); margin-bottom: 8px; }
+    .rv-stars  { display: flex; gap: 2px; margin-bottom: 12px; }
+    .rv-stars span { color: var(--gold); font-size: 12px; }
+    .rv-text   { font-size: 12px; color: rgba(253,247,240,.56); line-height: 2; margin-bottom: 20px; }
+    .rv-author { font-size: 11px; color: rgba(253,247,240,.28); }
+
+    /* ── GIFT BANNER ── */
+    .gift-banner {
+      padding: 60px 88px; background: var(--bg-warm);
+      display: flex; align-items: center; gap: 56px;
+    }
+    .gb-img { width: 220px; flex-shrink: 0; }
+    .gb-img img { width: 100%; aspect-ratio: 4/3; object-fit: cover; filter: sepia(.08) saturate(1.1); }
+    .gb-text   { flex: 1; }
+    .gb-h3 { font-family: var(--serif); font-size: 22px; font-weight: 400; letter-spacing: .05em; margin-bottom: 10px; }
+    .gb-p  { font-size: 13px; color: var(--muted); line-height: 2; }
+
+    /* ── LINE CTA ── */
+    .line-cta {
+      background: var(--bg-dark2); padding: 56px 88px;
+      display: flex; align-items: center; justify-content: space-between; gap: 48px;
+    }
+    .line-cta-label {
+      font-size: 9px; letter-spacing: .38em; text-transform: uppercase;
+      color: rgba(245,230,204,.5); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .line-cta-label::before { content:''; display:block; width:18px; height:1px; background:var(--gold-l); }
+    .line-cta-h3 { font-family: var(--serif); font-size: 26px; font-weight: 400; color: #fff; letter-spacing: .04em; line-height: 1.55; margin-bottom: 10px; }
+    .line-cta-p  { font-size: 12px; color: rgba(253,247,240,.4); line-height: 1.8; }
+    .btn-line {
+      display: inline-flex; align-items: center; gap: 12px;
+      padding: 16px 40px; background: #06c755; color: #fff;
+      font-size: 12px; letter-spacing: .12em; flex-shrink: 0;
+      transition: opacity .3s;
+    }
+    .btn-line:hover { opacity: .85; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--bg-dark); padding: 56px 88px 32px; }
+    .ft-top {
+      display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr 1fr;
+      gap: 48px; padding-bottom: 48px;
+      border-bottom: 1px solid rgba(255,255,255,.07); margin-bottom: 28px;
+    }
+    .ft-brand-logo { font-family: var(--serif); font-size: 20px; letter-spacing: .42em; text-transform: uppercase; color: var(--text-lt); margin-bottom: 4px; }
+    .ft-brand-sub  { font-size: 8px; letter-spacing: .38em; text-transform: uppercase; color: rgba(253,247,240,.28); margin-bottom: 20px; }
+    .ft-brand-desc { font-size: 12px; color: rgba(253,247,240,.32); line-height: 1.9; max-width: 220px; }
+    .ft-sns { display: flex; gap: 14px; margin-top: 24px; }
+    .ft-sns a {
+      width: 32px; height: 32px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.13);
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,.4); transition: all .3s;
+    }
+    .ft-sns a:hover { border-color: var(--gold-l); color: var(--gold-l); }
+    .ft-col-ttl  { font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: rgba(245,230,204,.45); margin-bottom: 20px; }
+    .ft-col-list { list-style: none; }
+    .ft-col-list li { margin-bottom: 10px; }
+    .ft-col-list a { font-size: 12px; color: rgba(253,247,240,.3); transition: color .3s; }
+    .ft-col-list a:hover { color: var(--text-lt); }
+    .ft-bottom { display: flex; align-items: center; justify-content: center; font-size: 10px; color: rgba(253,247,240,.16); letter-spacing: .06em; }
+
+    /* ── フェードアップ ── */
+    .fu { opacity: 0; transform: translateY(28px); transition: opacity .85s ease, transform .85s ease; }
+    .fu.vis { opacity: 1; transform: none; }
+    .fu:nth-child(2) { transition-delay: .12s; }
+    .fu:nth-child(3) { transition-delay: .22s; }
+    .fu:nth-child(4) { transition-delay: .32s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1024px) {
+      .sec { padding: 80px 48px; }
+      .ft-top { grid-template-columns: 1fr 1fr 1fr; gap: 36px; }
+      .line-cta { padding: 48px; }
+      .col-editorial { grid-template-columns: 1fr 1fr; grid-template-rows: auto auto auto; }
+      .col-feature { grid-row: auto; }
+      .col-feature .col-img { aspect-ratio: 1/1; }
+    }
+    @media (max-width: 900px) {
+      .hd { padding: 18px 24px; }
+      .hd-nav-l-wrap, .hd-cart { display: none; }
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+      .hero-left { padding: 48px 32px 56px; }
+      .hero-right { height: 62vw; min-height: 280px; clip-path: none; }
+      .hero-vert-label { display: none; }
+      .hero-bg-kanji { font-size: 320px; right: -40px; }
+      .trust { flex-direction: column; }
+      .trust-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,.06); max-width: 100%; width: 100%; }
+      .trust-item:last-child { border-bottom: none; }
+      .story-grid { grid-template-columns: 1fr; gap: 48px; }
+      .story-bg-year { display: none; }
+      .col-editorial { grid-template-columns: 1fr; }
+      .col-feature { grid-row: auto; }
+      .col-feature .col-img { aspect-ratio: 4/3; }
+      .gs-grid { grid-template-columns: 1fr; grid-template-rows: repeat(4, 200px); }
+      .rv-inner { grid-template-columns: 1fr; gap: 40px; }
+      .rv-stats { flex-direction: row; flex-wrap: wrap; gap: 32px; align-items: flex-end; }
+      .rv-divider-h { display: none; }
+      .rv-grid { grid-template-columns: 1fr; gap: 14px; }
+      .gift-banner { flex-direction: column; gap: 28px; padding: 48px 28px; }
+      .gb-img { width: 100%; }
+      .line-cta { flex-direction: column; gap: 28px; padding: 48px 28px; }
+      footer { padding: 48px 28px 28px; }
+      .ft-top { grid-template-columns: 1fr 1fr; gap: 32px; }
+      .sec { padding: 72px 28px; }
+    }
+    @media (max-width: 600px) {
+      .hero-h1 { font-size: 34px; }
+      .hero-bg-kanji { display: none; }
+      .hero-cta-group { flex-direction: column; align-items: flex-start; }
+      .ft-top { grid-template-columns: 1fr; }
+      .rv-stats { flex-direction: column; }
+      .story-numbers { flex-wrap: wrap; gap: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- カスタムカーソル -->
+  <div class="cursor" id="cursor"></div>
+
+  <!-- アナウンスバー＋ヘッダーをまとめて固定 -->
+  <div class="site-top">
+    <div class="announce" id="announce">
+      ✦ &nbsp;期間限定：送料無料 ＋ ギフト包装無料 &nbsp;｜&nbsp; 全商品対象 &nbsp;→
+    </div>
+    <header class="hd" id="hd">
+    <nav><ul class="hd-nav hd-nav-l-wrap">
+      <li><a href="#collection">Collection</a></li>
+      <li><a href="#story">About</a></li>
+      <li><a href="#products">Shop</a></li>
+    </ul></nav>
+    <a href="#" class="hd-logo">
+      <span class="hd-logo-main">Mahalo</span>
+      <span class="hd-logo-sub">Jewelry</span>
+    </a>
+    <nav><ul class="hd-nav hd-nav-r">
+      <li><a href="#gift-scene">Gift</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#line-cta">Contact</a></li>
+      <li>
+        <a href="#" class="hd-cart">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4">
+            <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <path d="M16 10a4 4 0 01-8 0"/>
+          </svg>
+        </a>
+      </li>
+    </ul></nav>
+  </header>
+  </div><!-- /site-top -->
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-left">
+      <!-- 左端の縦ラベル -->
+      <span class="hero-vert-label">Mahalo Jewelry &nbsp;·&nbsp; Est. 1998 &nbsp;·&nbsp; Hawaii</span>
+      <!-- 巨大な背景文字 -->
+      <span class="hero-bg-kanji" aria-hidden="true">想</span>
+      <!-- 社会的証明 -->
+      <div class="hero-proof">
+        <span class="hero-proof-dot"></span>
+        <span class="hero-proof-txt">累計 12,000名以上にお届け済み</span>
+      </div>
+      <h1 class="hero-h1">
+        あなたの<em>想い</em>を、永遠に纏う。
+      </h1>
+      <p class="hero-sub">
+        ハワイの自然が育んだ美しさと、<br>
+        職人の心が込められた特別なジュエリー。
+      </p>
+      <div class="hero-cta-group">
+        <a href="#collection" class="btn-primary">コレクションを見る &nbsp;→</a>
+        <a href="#story" class="btn-ghost">ブランドについて</a>
+      </div>
+      <p class="hero-note">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="8" width="18" height="13" rx="1"/><path d="M8 8V5a4 4 0 018 0v3"/>
+        </svg>
+        全国送料無料・ギフト包装無料
+      </p>
+    </div>
+    <div class="hero-right">
+      <img
+        src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=1200&q=90&auto=format&fit=crop&crop=center"
+        alt="MAHALO Hawaiian Jewelry"
+        loading="eager"
+      >
+      <div class="hero-scroll">
+        <div class="hero-scroll-line"></div>
+        <span>Scroll</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE ブランドワードテープ -->
+  <div class="marquee-wrap grain">
+    <div class="marquee-track">
+      <!-- 2周分で無限ループ -->
+      <span class="marquee-item">Mahalo <span class="marquee-dot"></span></span>
+      <span class="marquee-item hi">Hawaii</span>
+      <span class="marquee-item">Plumeria <span class="marquee-dot"></span></span>
+      <span class="marquee-item">想い <span class="marquee-dot"></span></span>
+      <span class="marquee-item hi">Aloha</span>
+      <span class="marquee-item">Handcrafted <span class="marquee-dot"></span></span>
+      <span class="marquee-item">職人 <span class="marquee-dot"></span></span>
+      <span class="marquee-item hi">Est. 1998</span>
+      <span class="marquee-item">Hawaiian Jewelry <span class="marquee-dot"></span></span>
+      <span class="marquee-item">永遠の輝き <span class="marquee-dot"></span></span>
+
+      <span class="marquee-item">Mahalo <span class="marquee-dot"></span></span>
+      <span class="marquee-item hi">Hawaii</span>
+      <span class="marquee-item">Plumeria <span class="marquee-dot"></span></span>
+      <span class="marquee-item">想い <span class="marquee-dot"></span></span>
+      <span class="marquee-item hi">Aloha</span>
+      <span class="marquee-item">Handcrafted <span class="marquee-dot"></span></span>
+      <span class="marquee-item">職人 <span class="marquee-dot"></span></span>
+      <span class="marquee-item hi">Est. 1998</span>
+      <span class="marquee-item">Hawaiian Jewelry <span class="marquee-dot"></span></span>
+      <span class="marquee-item">永遠の輝き <span class="marquee-dot"></span></span>
+    </div>
+  </div>
+
+  <!-- TRUST BAR -->
+  <div class="trust grain">
+    <div class="trust-item">
+      <svg class="trust-icon" width="30" height="30" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.2">
+        <path d="M16 4c0 0-8 4-8 12s8 12 8 12 8-4 8-12S16 4 16 4z"/>
+        <path d="M12 16l3 3 6-6"/>
+      </svg>
+      <div>
+        <p class="trust-ttl">職人ハンドメイド</p>
+        <p class="trust-desc">一つひとつ心を込めて</p>
+      </div>
+    </div>
+    <div class="trust-item">
+      <svg class="trust-icon" width="30" height="30" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.2">
+        <circle cx="16" cy="16" r="12"/>
+        <path d="M11 16l4 4 7-7"/>
+      </svg>
+      <div>
+        <p class="trust-ttl">品質永久保証</p>
+        <p class="trust-desc">ずっと安心のアフターケア</p>
+      </div>
+    </div>
+    <div class="trust-item">
+      <svg class="trust-icon" width="30" height="30" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.2">
+        <rect x="4" y="10" width="24" height="18" rx="1"/>
+        <path d="M4 10l3-6h18l3 6"/><path d="M16 10v18"/>
+      </svg>
+      <div>
+        <p class="trust-ttl">ギフト無料包装</p>
+        <p class="trust-desc">そのまま贈れるラッピング</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- STORY -->
+  <section class="sec story" id="story">
+    <div class="story-grid">
+      <div class="story-img-wrap fu">
+        <img
+          src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=700&q=80&auto=format&fit=crop&crop=center"
+          alt="Hawaii"
+        >
+        <div class="story-badge">
+          <span class="story-badge-yr">1998</span>
+          <span class="story-badge-lbl">Founded</span>
+          <span class="story-badge-deco">✦</span>
+        </div>
+      </div>
+      <div class="story-body fu">
+        <!-- 巨大な年号背景装飾 -->
+        <span class="story-bg-year" aria-hidden="true">1998</span>
+        <span class="story-eyebrow">Our Story</span>
+        <h2 class="story-h3">
+          ハワイの祈りを、<br>あなたの指先に。
+        </h2>
+        <p class="story-p">
+          マハロジュエリーは、ハワイの大自然とスピリットに
+          インスピレーションを受けて誕生しました。
+          大切な人への想いや、自分自身を愛する気持ちを
+          そっと輝きに変えて、日常に寄り添うジュエリーを
+          お届けします。
+        </p>
+        <div class="story-numbers">
+          <div>
+            <div class="story-num-val">12,000<span class="story-num-unit">+</span></div>
+            <div class="story-num-lbl">お届け数</div>
+          </div>
+          <div>
+            <div class="story-num-val">4.87<span class="story-num-unit"> / 5</span></div>
+            <div class="story-num-lbl">平均評価</div>
+          </div>
+          <div>
+            <div class="story-num-val">98<span class="story-num-unit">%</span></div>
+            <div class="story-num-lbl">リピート率</div>
+          </div>
+        </div>
+        <a href="#" class="story-link">ブランドについて見る &nbsp;→</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLLECTION（非対称エディトリアルグリッド） -->
+  <section class="sec" id="collection">
+    <p class="sec-lbl fu">Collection</p>
+    <h2 class="sec-h2 fu">人気コレクション</h2>
+    <p class="sec-lead fu">ハワイアンジュエリーの伝統を受け継ぎながら、<br>現代の女性に寄り添うデザインで。</p>
+    <div class="col-editorial">
+      <!-- フィーチャー（大） -->
+      <div class="col-feature fu">
+        <div class="col-img">
+          <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=900&q=85&auto=format&fit=crop" alt="Plumeria Ring">
+          <span class="col-badge">Best Seller</span>
+          <span class="col-badge-stock">残りわずか</span>
+          <span class="col-num" aria-hidden="true">01</span>
+          <div class="col-overlay"><span class="col-overlay-btn">詳しく見る &nbsp;→</span></div>
+        </div>
+        <div class="col-meta">
+          <p class="col-name-en">Plumeria Ring</p>
+          <p class="col-name-jp">プルメリアリング</p>
+          <p class="col-price">¥38,500 <span>（税込）</span></p>
+        </div>
+      </div>
+      <!-- スモール2枚 -->
+      <div class="col-card-sm fu">
+        <div class="col-img">
+          <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=700&q=80&auto=format&fit=crop" alt="Wave Pendant">
+          <span class="col-num" aria-hidden="true">02</span>
+          <div class="col-overlay"><span class="col-overlay-btn">詳しく見る &nbsp;→</span></div>
+        </div>
+        <div class="col-meta">
+          <p class="col-name-en">Wave Pendant</p>
+          <p class="col-name-jp">ウェーブペンダント</p>
+          <p class="col-price">¥29,700 <span>（税込）</span></p>
+        </div>
+      </div>
+      <div class="col-card-sm fu">
+        <div class="col-img">
+          <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=700&q=80&auto=format&fit=crop" alt="Hawaiian Hoop Pierce">
+          <span class="col-num" aria-hidden="true">03</span>
+          <div class="col-overlay"><span class="col-overlay-btn">詳しく見る &nbsp;→</span></div>
+        </div>
+        <div class="col-meta">
+          <p class="col-name-en">Hawaiian Hoop Pierce</p>
+          <p class="col-name-jp">ハワイアンフープピアス</p>
+          <p class="col-price">¥26,400 <span>（税込）</span></p>
+        </div>
+      </div>
+    </div>
+    <div class="col-footer fu">
+      <a href="#" class="btn-outline">すべてのコレクションを見る &nbsp;→</a>
+    </div>
+  </section>
+
+  <!-- GIFT SCENE -->
+  <section class="sec gift-scene" id="gift-scene">
+    <p class="sec-lbl fu">Gift Scene</p>
+    <h2 class="sec-h2 fu">贈りたい、あの瞬間に。</h2>
+    <p class="sec-lead fu">人生の大切なシーンに、<br>MAHALOのジュエリーを添えて。</p>
+    <div class="gs-grid">
+      <div class="gs-card fu">
+        <img src="https://images.unsplash.com/photo-1529636798458-92182e662485?w=900&q=80&auto=format&fit=crop" alt="Anniversary">
+        <div class="gs-ov"></div>
+        <div class="gs-body"><p class="gs-jp">記念日</p><p class="gs-en">Anniversary</p><span class="gs-line"></span></div>
+      </div>
+      <div class="gs-card fu">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=80&auto=format&fit=crop" alt="Birthday">
+        <div class="gs-ov"></div>
+        <div class="gs-body"><p class="gs-jp">誕生日</p><p class="gs-en">Birthday</p><span class="gs-line"></span></div>
+      </div>
+      <div class="gs-card fu">
+        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=900&q=80&auto=format&fit=crop" alt="Proposal">
+        <div class="gs-ov"></div>
+        <div class="gs-body"><p class="gs-jp">プロポーズ</p><p class="gs-en">Proposal</p><span class="gs-line"></span></div>
+      </div>
+      <div class="gs-card fu">
+        <img src="https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=900&q=80&auto=format&fit=crop" alt="For Myself">
+        <div class="gs-ov"></div>
+        <div class="gs-body"><p class="gs-jp">自分へのご褒美</p><p class="gs-en">For Myself</p><span class="gs-line"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="sec reviews grain" id="reviews">
+    <p class="sec-lbl fu" style="color:var(--gold-l);margin-bottom:52px;">
+      <span style="display:block;width:28px;height:1px;background:var(--gold-l)"></span>
+      Customer Reviews
+      <span style="display:block;width:28px;height:1px;background:var(--gold-l)"></span>
+    </p>
+    <div class="rv-inner">
+      <div class="rv-stats fu">
+        <div>
+          <div class="rv-stars-lg"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+          <div class="rv-big">4.87<span class="rv-big-unit"> / 5,248件</span></div>
+        </div>
+        <div class="rv-divider-h"></div>
+        <div>
+          <div class="rv-pct">98<span class="rv-pct-unit">%</span></div>
+          <div class="rv-pct-lbl">リピート率</div>
+        </div>
+        <div class="rv-laurel">❧ ❧ ❧</div>
+      </div>
+      <div class="rv-grid">
+        <div class="rv-card fu">
+          <div class="rv-mark">"</div>
+          <div class="rv-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+          <p class="rv-text">デザインが本当に美しくて、見るたびに幸せな気持ちになります。大切に使います。</p>
+          <p class="rv-author">30代 女性</p>
+        </div>
+        <div class="rv-card fu">
+          <div class="rv-mark">"</div>
+          <div class="rv-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+          <p class="rv-text">記念日のプレゼントで購入しました。とても喜んでもらえて嬉しいです。</p>
+          <p class="rv-author">20代 男性</p>
+        </div>
+        <div class="rv-card fu">
+          <div class="rv-mark">"</div>
+          <div class="rv-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+          <p class="rv-text">ハワイを感じるデザインで着け心地も良く、毎日身につけています。</p>
+          <p class="rv-author">40代 女性</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GIFT BANNER -->
+  <div class="gift-banner" id="gift-banner">
+    <div class="gb-img">
+      <img src="https://images.unsplash.com/photo-1549465220-1a8b9238cd48?w=500&q=80&auto=format&fit=crop" alt="Gift Box">
+    </div>
+    <div class="gb-text">
+      <h3 class="gb-h3">大切な想いを、特別なかたちで。</h3>
+      <p class="gb-p">マハロジュエリーのギフト包装は無料です。<br>心を込めてお包みいたします。</p>
+    </div>
+    <a href="#" class="btn-outline">ギフトについて詳しく見る &nbsp;→</a>
+  </div>
+
+  <!-- LINE CTA -->
+  <div class="line-cta grain" id="line-cta">
+    <div class="line-cta-body">
+      <p class="line-cta-label">Official LINE</p>
+      <h3 class="line-cta-h3">LINEで気軽にご相談を。<br>専任スタッフがお答えします。</h3>
+      <p class="line-cta-p">サイズ選びやプレゼントのご相談など、<br>お気軽にメッセージください。</p>
+    </div>
+    <a href="#" class="btn-line">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M21 11.5C21 7.36 16.97 4 12 4 7.03 4 3 7.36 3 11.5c0 3.69 3.24 6.79 7.61 7.38.3.06.7.2.8.44.1.22.06.56.03.78l-.12.74c-.04.22-.17.87.76.47.93-.4 4.97-2.93 6.79-5.01A6.66 6.66 0 0021 11.5z"/>
+      </svg>
+      LINE で友達追加
+    </a>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="grain">
+    <div class="ft-top">
+      <div>
+        <p class="ft-brand-logo">Mahalo</p>
+        <p class="ft-brand-sub">Jewelry</p>
+        <p class="ft-brand-desc">ハワイの自然と職人の心が宿る、あなたのための特別なジュエリー。</p>
+        <div class="ft-sns">
+          <a href="#" title="Instagram">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+            </svg>
+          </a>
+          <a href="#" title="LINE">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 11.5C21 7.36 16.97 4 12 4 7.03 4 3 7.36 3 11.5c0 3.69 3.24 6.79 7.61 7.38.3.06.7.2.8.44.1.22.06.56.03.78l-.12.74c-.04.22-.17.87.76.47.93-.4 4.97-2.93 6.79-5.01A6.66 6.66 0 0021 11.5z"/>
+            </svg>
+          </a>
+          <a href="#" title="Facebook">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+      <div>
+        <p class="ft-col-ttl">コレクション</p>
+        <ul class="ft-col-list">
+          <li><a href="#">リング</a></li>
+          <li><a href="#">ネックレス</a></li>
+          <li><a href="#">ピアス</a></li>
+          <li><a href="#">バングル</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="ft-col-ttl">ブランドについて</p>
+        <ul class="ft-col-list">
+          <li><a href="#">私たちの想い</a></li>
+          <li><a href="#">職人について</a></li>
+          <li><a href="#">素材について</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="ft-col-ttl">サポート</p>
+        <ul class="ft-col-list">
+          <li><a href="#">よくあるご質問</a></li>
+          <li><a href="#">サイズガイド</a></li>
+          <li><a href="#">店舗情報</a></li>
+          <li><a href="#">お問い合わせ</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="ft-col-ttl">ニュース</p>
+        <ul class="ft-col-list">
+          <li><a href="#">お知らせ</a></li>
+          <li><a href="#">新着情報</a></li>
+          <li><a href="#">特定商取引に基づく表示</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bottom">
+      <p>© MAHALO JEWELRY All Rights Reserved. &nbsp;—&nbsp; Portfolio LP / Hawaiian Jewelry Concept</p>
+    </div>
+  </footer>
+
+  <script>
+    /* カスタムカーソル */
+    const cursor = document.getElementById('cursor');
+    let mx = 0, my = 0;
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cursor.style.left = mx + 'px';
+      cursor.style.top  = my + 'px';
+    });
+    document.querySelectorAll('a, button, .col-card-sm, .col-feature, .gs-card').forEach(el => {
+      el.addEventListener('mouseenter', () => cursor.classList.add('big'));
+      el.addEventListener('mouseleave', () => cursor.classList.remove('big'));
+    });
+    document.addEventListener('mouseleave', () => cursor.style.opacity = '0');
+    document.addEventListener('mouseenter', () => cursor.style.opacity = '1');
+
+    /* ヘッダー＋アナウンスバーのスクロール制御 */
+    const hd       = document.getElementById('hd');
+    const announce = document.getElementById('announce');
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY > 60;
+      hd.classList.toggle('on', scrolled);
+      announce.classList.toggle('hidden', scrolled);
+    }, { passive: true });
+
+    /* フェードアップ */
+    const io = new IntersectionObserver(
+      entries => entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('vis'); io.unobserve(e.target); }
+      }),
+      { threshold: .07, rootMargin: '0px 0px -20px 0px' }
+    );
+    document.querySelectorAll('.fu').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
